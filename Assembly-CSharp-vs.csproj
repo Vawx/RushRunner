@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+	<ProductVersion>10.0.20506</ProductVersion>
+	<SchemaVersion>2.0</SchemaVersion>
+	<ProjectGuid>{6E72E1C5-257D-7F6B-44F8-A98A89E58D7C}</ProjectGuid>
+	<OutputType>Library</OutputType>
+	<AppDesignerFolder>Properties</AppDesignerFolder>
+	<RootNamespace></RootNamespace>
+	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	<FileAlignment>512</FileAlignment>
+	<BaseDirectory>Assets</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	<DebugSymbols>true</DebugSymbols>
+	<DebugType>full</DebugType>
+	<Optimize>false</Optimize>
+	<OutputPath>Temp\bin\Debug\</OutputPath>
+	<DefineConstants>DEBUG;TRACE;UNITY_5_0_0;UNITY_5_0;UNITY_5;ENABLE_LICENSE_RENAME;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_NEW_HIERARCHY;ENABLE_PHYSICS;ENABLE_PHYSICS_PHYSX3;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_AUDIOMIXER_SUSPEND;ENABLE_NONPRO;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;PLATFORM_SUPPORTS_MONO;UNITY_IPHONE;ENABLE_RUNTIME_GI;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_NETWORK;UNITY_IPHONE_API;UNITY_IOS;ENABLE_TEXTUREID_MAP;PLAYERCONNECTION_LISTENS_FIXED_PORT;DEBUGGER_LISTENS_FIXED_PORT;ENABLE_MONO;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	<DebugType>pdbonly</DebugType>
+	<Optimize>true</Optimize>
+	<OutputPath>Temp\bin\Release\</OutputPath>
+	<DefineConstants>TRACE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+	<Reference Include="System" />
+    <Reference Include="System.XML" />
+	<Reference Include="System.Core" />
+	<Reference Include="System.Xml.Linq" />
+	<Reference Include="UnityEngine">
+	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	</Reference>
+	<Reference Include="UnityEditor">
+	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	</Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\Extensions\FlashLikeEvents\Events\Core\Events\EventDispatcher.cs" />
+     <Compile Include="Assets\Extensions\FlashLikeEvents\Events\Core\Events\EventDispatcherBase.cs" />
+     <Compile Include="Assets\Extensions\FlashLikeEvents\Events\Data\BaseEvent.cs" />
+     <Compile Include="Assets\Extensions\FlashLikeEvents\Events\Templates\CEvent.cs" />
+     <Compile Include="Assets\Extensions\FlashLikeEvents\Events\interfaces\IDispatcher.cs" />
+     <Compile Include="Assets\Extensions\IOSDeploy\Scripts\Core\ISDSettings.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Core\IOSNative.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Core\IOSNativeAppEvents.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Core\IOSNativeSettings.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Core\IOSNativeUtility.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Core\ISN_CacheManager.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Core\ISN_Error.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Core\ISN_Singleton.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Enum\GCBoardTimeSpan.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Enum\GCCollectionType.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Enum\GameCenterDataSendType.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Enum\IOSDateTimePickerMode.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Enum\IOSDialogResult.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Enum\IOSGravity.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Enum\IOSStoreResultCode.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Enum\IOSTransactionErrorCode.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Enum\IOSUIUserNotificationType.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Enum\InAppPurchaseState.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Enum\iAdGravity.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\GameCenter\GameCenterManager.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\GameCenter\GameCenterMultiplayer.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\GameCenter\Results\ISN_AchievementProgressResult.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\GameCenter\Results\ISN_PlayerScoreLoadedResult.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\GameCenter\Results\ISN_PlayerSignatureResult.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\GameCenter\Results\ISN_UserInfoLoadResult.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\GameCenter\Templates\AchievementTemplate.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\GameCenter\Templates\GCLeaderBoard.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\GameCenter\Templates\GCScore.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\GameCenter\Templates\GameCenterDataPackage.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\GameCenter\Templates\GameCenterMatchData.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\GameCenter\Templates\GameCenterPlayerTemplate.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\GameCenter\Templates\ScoreCollection.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Market\IOSBillingInitChecker.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Market\IOSInAppPurchaseManager.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Market\IOSNativeMarketBridge.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Market\IOSStoreProductView.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Market\Templates\IOSProductTemplate.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Market\Templates\IOSStoreKitError.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Market\Templates\IOSStoreKitResponse.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Market\Templates\IOSStoreKitVerificationResponse.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Notifications\DeviceTokenListener.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Notifications\IOSNotificationController.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Notifications\IOSNotificationDeviceToken.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Other\Camera\IOSCamera.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Other\Camera\IOSGalleryLoadImageFormat.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Other\Camera\IOSImagePickResult.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Other\System\IOSDateTimePicker.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Other\System\IOSSharedApplication.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Other\System\ISN_CheckUrlResult.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Other\System\ISN_Security.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Other\VIdeo\IOSVideoManager.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\PopUps\IOSDialog.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\PopUps\IOSMessage.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\PopUps\IOSRateUsPopUp.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\PopUps\base\BaseIOSPopup.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\PopUps\base\IOSNativePopUpManager.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Social\IOSSocialManager.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Templates\ISN_Result.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Templates\Models\ISN_DeviceGUID.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\Templates\Results\ISN_LocalReceiptResult.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\iAd\iAdBanner.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\iAd\iAdBannerController.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\iAd\iAdEvent.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\iAd\iAdIOSBanner.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\iAd\iAdIOSInterstitial.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\iCloud\Templates\iCloudData.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\iCloud\iCloudManager.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Base\BaseIOSFeaturePreview.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Billing\MarketExample.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Billing\PaymentManagerExample.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\GameCenterExamples\GameCenterExample.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\GameCenterExamples\GameCenterFriendLoadExample.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\GameCenterExamples\LeaderboardCustomGUIExample.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\JSExample\JSHelper.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Multiplayer\MultiplayerManagerExample.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Multiplayer\ptpGame\GUI\ConnectionButton.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Multiplayer\ptpGame\GUI\DisconnectButton.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Multiplayer\ptpGame\Utils\ByteBuffer.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Multiplayer\ptpGame\managers\ClickManager.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Multiplayer\ptpGame\managers\NetworkManager.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Multiplayer\ptpGame\managers\PTPGameController.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Multiplayer\ptpGame\packages\BasePackage.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Multiplayer\ptpGame\packages\ObjectCreatePackage.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Other\AppEventHandlerExample.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Other\IOSSocialUseExample.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Other\NativeIOSActionsExample.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Other\NotificationExample.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Other\PopUpExamples.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Other\iCloudUseExample.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Preview\IOSNativeFeaturesPreview.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\Preview\IOSNativePreviewBackButton.cs" />
+     <Compile Include="Assets\Extensions\IOSNative\xExample\Scripts\iAd Examples\iAdUseExample.cs" />
+     <Compile Include="Assets\Extensions\StansAssetsCommon\FileStaticAPI.cs" />
+     <Compile Include="Assets\Extensions\StansAssetsCommon\SAC_Singleton.cs" />
+     <Compile Include="Assets\Extensions\StansAssetsCommon\SA_ScreenShotMaker.cs" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	   Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>
