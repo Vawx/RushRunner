@@ -23,11 +23,11 @@ public class MultiplayerManagerExample : MonoBehaviour {
 		GameCenterManager.init();
 
 
-
+		GameCenterMultiplayer.OnMatchStarted += OnGCMatchStart;
 		GameCenterMultiplayer.instance.addEventListener (GameCenterMultiplayer.PLAYER_CONNECTED, OnGCPlayerConnected);
 		GameCenterMultiplayer.instance.addEventListener (GameCenterMultiplayer.PLAYER_DISCONNECTED, OnGCPlayerDisconnected);
 
-		GameCenterMultiplayer.instance.addEventListener (GameCenterMultiplayer.MATCH_STARTED, OnGCMatchStart);
+	
 		GameCenterMultiplayer.instance.addEventListener (GameCenterMultiplayer.DATA_RECEIVED, OnGCDataReceived);
 	}
 
@@ -89,10 +89,12 @@ public class MultiplayerManagerExample : MonoBehaviour {
 		IOSNativePopUpManager.showMessage ("Player Disconnected", "playerid: " + playerID);
 	}
 
-	private void OnGCMatchStart(CEvent e) {
-		GameCenterMatchData match = e.data as GameCenterMatchData;
+	private void OnGCMatchStart(GameCenterMatchData match) {
 
 		IOSNativePopUpManager.showMessage ("OnMatchStart", "let's play now\n  Other player count: " + match.playerIDs.Count);
+
+
+
 	}
 
 	private void OnGCDataReceived(CEvent e) {

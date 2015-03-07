@@ -303,6 +303,7 @@ static GCHelper *sharedHelper = nil;
     if (match != theMatch) return;
     
     
+    
     NSMutableString *str = [[NSMutableString alloc] init];
     const char *db = (const char *) [data bytes];
     for (int i = 0; i < [data length]; i++) {

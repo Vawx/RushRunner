@@ -539,7 +539,7 @@ static NSMutableArray *loadedPlayersIds;
 #if UNITY_VERSION < 500
                 [str autorelease];
 #endif
-                UnitySendMessage("GameCenterManager", "onLeaderBoardScoreListLoaded", [ISNDataConvertor NSStringToChar:str]);
+                UnitySendMessage("GameCenterManager", "onLeaderboardScoreListLoaded", [ISNDataConvertor NSStringToChar:str]);
 
                 
                 
@@ -815,7 +815,7 @@ static NSMutableArray *loadedPlayersIds;
 #if UNITY_VERSION < 500
         [str autorelease];
 #endif
-                UnitySendMessage("GameCenterManager", "onLeaderBoardScore", [ISNDataConvertor NSStringToChar:str]);
+                UnitySendMessage("GameCenterManager", "onLeaderboardScore", [ISNDataConvertor NSStringToChar:str]);
 
                 
                 

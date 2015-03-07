@@ -20,7 +20,7 @@ public class ClickManager : MonoBehaviour {
 	//--------------------------------------
 
 	void Awake() {
-		GameCenterMultiplayer.instance.addEventListener (GameCenterMultiplayer.DATA_RECEIVED, OnData);
+		GameCenterMultiplayer.OnDataReceived += OnData;
 	}
 
 
@@ -51,20 +51,34 @@ public class ClickManager : MonoBehaviour {
 	//  EVENTS
 	//--------------------------------------
 
-	private  void OnData(CEvent e) {
+	private  void OnData(GameCenterDataPackage package) {
 
-		GameCenterDataPackage package = e.data as GameCenterDataPackage;
+
+
 
 		ByteBuffer b = new ByteBuffer (package.buffer);
 
+		int pId = b.readInt();
 
-		Vector3 pos = new Vector3 (0, 0, 1);
-		pos.x = b.readFloat ();
-		pos.y = b.readFloat ();
+		switch(pId) {
+		case 1:
+			Debug.Log("Sphere pack");
+			Vector3 pos = new Vector3 (0, 0, 1);
+			pos.x = b.readFloat ();
+			pos.y = b.readFloat ();
+			
+			
+			
+			PTPGameController.instance.createRedSphere (pos);
+			break;
+		default:
+			Debug.Log("Got pack wit id: " + pId);
+			break;
+		}
 
 
 
-		PTPGameController.instance.createRedSphere (pos);
+	
 
 	}
 	

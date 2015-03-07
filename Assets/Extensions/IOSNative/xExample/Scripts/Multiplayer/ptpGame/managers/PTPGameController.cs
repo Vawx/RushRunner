@@ -51,7 +51,8 @@ public class PTPGameController : MonoBehaviour {
 
 
 		GameCenterMultiplayer.instance.addEventListener (GameCenterMultiplayer.PLAYER_DISCONNECTED, OnGCPlayerDisconnected);
-		GameCenterMultiplayer.instance.addEventListener (GameCenterMultiplayer.MATCH_STARTED, OnGCMatchStart);
+
+		GameCenterMultiplayer.OnMatchStarted += OnGCMatchStart;
 
 	}
 
@@ -105,8 +106,7 @@ public class PTPGameController : MonoBehaviour {
 		cleanUpScene ();
 	}
 
-	private void OnGCMatchStart(CEvent e) {
-		GameCenterMatchData match = e.data as GameCenterMatchData;
+	private void OnGCMatchStart(GameCenterMatchData match) {
 
 		IOSNativePopUpManager.showMessage ("OnMatchStart", "let's play now\n  Other player count: " + match.playerIDs.Count);
 
@@ -115,6 +115,11 @@ public class PTPGameController : MonoBehaviour {
 		m.enabled = true;
 		b.enabled = false;
 		d.enabled = true;
+
+		
+		Debug.Log("Sending HelloPackage ");
+		HelloPackage p =  new HelloPackage();
+		p.send();
 
 	}
 	
