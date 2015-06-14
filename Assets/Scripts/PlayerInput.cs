@@ -31,7 +31,10 @@ public class PlayerInput : MonoBehaviour
 
         if (GameCharacter != null)
         {
-            GameCharacter.RecieveInput( touchDistance, touchDirection );
+            if (!GameCharacter.isDead)
+            {
+                GameCharacter.RecieveInput(touchDistance, touchDirection);
+            }
         }
     }
 
