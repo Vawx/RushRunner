@@ -174,7 +174,7 @@ public class Character : MonoBehaviour
         {
             if (Game != null)
             {
-                Game.AwardAchievment( GameInfo.RunnerAchievements.RA_Yards, 100 );
+                Game.AwardAchievment( GameInfo.RunnerAchievements.RA_Yards, (float)Additional );
             }
         }
     }
@@ -196,7 +196,7 @@ public class Character : MonoBehaviour
         {
             if (Game != null)
             {
-                Game.AwardAchievment( GameInfo.RunnerAchievements.RA_Pickups, 100 );
+                Game.AwardAchievment( GameInfo.RunnerAchievements.RA_Pickups, (float)Additional );
             }
         }
     }
