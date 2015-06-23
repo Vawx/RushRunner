@@ -218,7 +218,7 @@ public class GameInfo : MonoBehaviour
     }
 
     // Set achievment for RunnerGame
-    public void AwardAchievment(RunnerAchievements Achievement, float AchievmentValue )
+    public void SubmitAchievmentProgress(RunnerAchievements Achievement, float AchievmentValue )
     {
         string lastAchievement = "";
         switch (Achievement)
@@ -234,7 +234,7 @@ public class GameInfo : MonoBehaviour
                 break;
         }
 
-        GameCenterManager.SubmitAchievement(AchievmentValue, lastAchievement);    
+        GameCenterManager.SubmitAchievement(GameCenterManager.GetAchievementProgress(lastAchievement) + AchievmentValue, lastAchievement);    
         print( Achievement.ToString( ) + " " + AchievmentValue + " " + GameCenterManager.GetAchievementProgress( lastAchievement ) );
     }
 
