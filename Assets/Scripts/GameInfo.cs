@@ -220,20 +220,22 @@ public class GameInfo : MonoBehaviour
     // Set achievment for RunnerGame
     public void AwardAchievment(RunnerAchievements Achievement, float AchievmentValue )
     {
+        string lastAchievement = "";
         switch (Achievement)
         {
             case RunnerAchievements.RA_Pickups:
-                    GameCenterManager.SubmitAchievement(AchievmentValue, "G_100Pickups");              
+                    lastAchievement = "G_100Pickups";
                 break;
             case RunnerAchievements.RA_Rounds:
-                    GameCenterManager.SubmitAchievement(AchievmentValue, "G_10Rounds");
+                    lastAchievement = "G_10Rounds";
                 break;
             case RunnerAchievements.RA_Yards:
-                    GameCenterManager.SubmitAchievement( AchievmentValue, "G_100Yards" );
+                    lastAchievement = "G_100Yards";
                 break;
         }
 
-        print( Achievement.ToString( ) + " " + AchievmentValue );
+        GameCenterManager.SubmitAchievement(AchievmentValue, lastAchievement);    
+        print( Achievement.ToString( ) + " " + AchievmentValue + " " + GameCenterManager.GetAchievementProgress( lastAchievement ) );
     }
 
     void OnAuthFinished(ISN_Result res)
