@@ -1,8 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnionAssets.FLE;
 
 public class GameInfo : MonoBehaviour 
 {
+    public enum RunnerAchievements
+    {
+        RA_Rounds,
+        RA_Pickups,
+        RA_Yards,
+    };
+
+    // If game is running or at menu idle
+    [System.NonSerialized]
+    public bool bGameRunning;
+
+    // MainMenu UI reference
+    public Canvas MainMenuUI;
+
     // GameUI reference
     public Canvas GameUI;
 
@@ -38,7 +53,19 @@ public class GameInfo : MonoBehaviour
 
             RestartGame( );
         }
+
+        GameCenterManager.RegisterAchievement( "G_100Yards" );
+        GameCenterManager.RegisterAchievement( "G_100Pickups" );
+        GameCenterManager.RegisterAchievement( "G_10Rounds" );
+
+        GameCenterManager.Dispatcher.addEventListener( GameCenterManager.GAME_CENTER_ACHIEVEMENT_PROGRESS, OnAchievementProgress );
+        GameCenterManager.Dispatcher.addEventListener( GameCenterManager.GAME_CENTER_ACHIEVEMENTS_RESET, OnAchievementsReset );
+
+        GameCenterManager.OnAchievementsLoaded += OnAchievementLoaded;
+
+        GameCenterManager.init( );
     }
+
 
     // Updates every frame
     void Update( )
@@ -106,7 +133,7 @@ public class GameInfo : MonoBehaviour
 
         if ( LevelManager != null )
         {
-            LevelManager.ResetLevelPieces( );
+            LevelManager.ResetLevelPieces( bGameRunning );
         }
     }
 
@@ -134,6 +161,89 @@ public class GameInfo : MonoBehaviour
         if (GameUI != null)
         {
             GameUI.transform.Find( "RestartButton" ).gameObject.SetActive( !bHide );
+            GameUI.transform.Find( "BackToMenuButton" ).gameObject.SetActive( !bHide );
         }
     }
+
+    // Game state button was pressed
+    public void GameStateButtonPressed( bool bRunning )
+    {
+        bGameRunning = bRunning;
+
+        if (MainMenuUI != null)
+        {
+            MainMenuUI.gameObject.SetActive(!bRunning);
+        }
+
+        if (GameUI != null)
+        {
+            GameUI.gameObject.SetActive(bRunning);
+        }
+
+        RestartGame( );
+    }
+
+    /** ----------------------------
+     * GameCenter Events
+     * ---------------------------*/
+
+    // When achievements are loaded
+    private void OnAchievementLoaded(ISN_Result Result)
+    {
+        if (Result.IsSucceeded)
+        {
+            foreach (AchievementTemplate template in GameCenterManager.Achievements)
+            {
+                print( template.id + ": " + template.progress );
+            }
+        }
+    }
+
+    // When achievements are reset
+    private void OnAchievementsReset()
+    {
+
+    }
+
+    // When achievments send progress
+    private void OnAchievementProgress(CEvent Event)
+    {
+        ISN_AchievementProgressResult result = Event.data as ISN_AchievementProgressResult;
+
+        if (result.IsSucceeded)
+        {
+            AchievementTemplate template = result.info;
+            print( template.id + ": " + template.progress.ToString( ) );
+        }
+    }
+
+    // Set achievment for RunnerGame
+    public void AwardAchievment(RunnerAchievements Achievement, int AchievmentValue )
+    {
+        switch (Achievement)
+        {
+            case RunnerAchievements.RA_Pickups:
+                GameCenterManager.SubmitAchievement( AchievmentValue, "G_100Pickups" );
+                break;
+            case RunnerAchievements.RA_Rounds:
+                GameCenterManager.SubmitAchievement( AchievmentValue, "G_10Rounds" );
+                break;
+            case RunnerAchievements.RA_Yards:
+                GameCenterManager.SubmitAchievement( AchievmentValue, "G_100Yards" );
+                break;
+        }
+    }
+
+    void OnAuthFinished(ISN_Result res)
+    {
+        if (res.IsSucceeded)
+        {
+            IOSNativePopUpManager.showMessage("Player Authored ", "ID: " + GameCenterManager.Player.PlayerId + "\n" + "Alias: " + GameCenterManager.Player.Alias);
+        }
+        else
+        {
+            IOSNativePopUpManager.showMessage("Game Center ", "Player auth failed");
+        }
+    }
+
 }

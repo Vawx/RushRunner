@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
+    public LevelPieceManager LevelManager;
+
     public GameInfo Game;
 
     [System.NonSerialized]
@@ -44,7 +46,7 @@ public class Character : MonoBehaviour
         lockXPosition.x = 2.25f;
         transform.position = lockXPosition;
 
-        if (!isDead && Time.timeScale == 1)
+        if (!isDead && Time.timeScale == 1 )
         {
             CurrentTime += Time.deltaTime + 0.025f;
             if (CurrentTime >= 1.0f)
@@ -81,7 +83,7 @@ public class Character : MonoBehaviour
 
         characterRigidBody = gameObject.GetComponent<Rigidbody2D>( );
         characterAnimator = gameObject.GetComponent<Animator>( );
-        if (characterRigidBody != null && characterAnimator != null)
+        if (characterRigidBody != null && characterAnimator != null && LevelManager.bGameRunning)
         {
             Direction.x = 0.0f;
             if (Direction.y > 0.0f && !isJumping)
@@ -159,12 +161,20 @@ public class Character : MonoBehaviour
     public void AddDistance(int Additional)
     {
         DistanceCount += Additional;
-        if (GameUI != null)
+        if (GameUI != null && LevelManager.bGameRunning)
         {
             Text distanceText = GameUI.transform.Find( "DistanceBackground/DistanceValue" ).GetComponent<Text>( );
             if (distanceText != null)
             {
                 distanceText.text = DistanceCount.ToString( );
+            }
+        }
+
+        if (DistanceCount >= 100)
+        {
+            if (Game != null)
+            {
+                Game.AwardAchievment( GameInfo.RunnerAchievements.RA_Yards, 100 );
             }
         }
     }
@@ -179,6 +189,14 @@ public class Character : MonoBehaviour
             if (coinText != null)
             {
                 coinText.text = CoinCount.ToString( );
+            }
+        }
+
+        if (CoinCount >= 100)
+        {
+            if (Game != null)
+            {
+                Game.AwardAchievment( GameInfo.RunnerAchievements.RA_Pickups, 100 );
             }
         }
     }
