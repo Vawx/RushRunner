@@ -170,13 +170,10 @@ public class Character : MonoBehaviour
             }
         }
 
-        if (DistanceCount >= 100)
+        if (Game != null)
         {
-            if (Game != null)
-            {
-                Game.AwardAchievment( GameInfo.RunnerAchievements.RA_Yards, (float)Additional );
-            }
-        }
+            Game.AwardAchievment( GameInfo.RunnerAchievements.RA_Yards, (float)Additional );
+        }       
     }
 
     // Add to the coin count
@@ -192,12 +189,9 @@ public class Character : MonoBehaviour
             }
         }
 
-        if (CoinCount >= 100)
+        if (Game != null)
         {
-            if (Game != null)
-            {
-                Game.AwardAchievment( GameInfo.RunnerAchievements.RA_Pickups, (float)Additional );
-            }
-        }
+            Game.AwardAchievment( GameInfo.RunnerAchievements.RA_Pickups, (float)Additional );
+        }        
     }
 }
