@@ -28,6 +28,9 @@ public class Character : MonoBehaviour
     [System.NonSerialized]
     public float CurrentTime;
 
+    [System.NonSerialized]
+    public int AttemptCount;
+
     private bool isFadeOut;
 
 	// Use this for initialization
@@ -35,6 +38,7 @@ public class Character : MonoBehaviour
     {
 	    RestartLocation = gameObject.transform.position;
 
+        AttemptCount = PlayerPrefs.GetInt( "Attempts" );
         CoinCount = PlayerPrefs.GetInt( "Coins" );
         AddCoins( 0 );
 	}
@@ -154,6 +158,15 @@ public class Character : MonoBehaviour
             gameCharacterSprite.color = resetColorAlpha;
         }
 
+        PlayerPrefs.SetInt("Attempts", AttemptCount + 1);
+        PlayerPrefs.Save( );
+        if (Game != null)
+        {
+            Game.SubmitAchievmentProgress( GameInfo.RunnerAchievements.RA_Rounds, (float)AttemptCount );
+            Game.SubmitAchievmentProgress( GameInfo.RunnerAchievements.RA_Pickups, (float)CoinCount );
+            Game.SubmitAchievementAsWhole( GameInfo.RunnerAchievements.RA_Yards, 0.0f );
+        }
+
         DistanceCount = 0;
     }
 
@@ -168,12 +181,7 @@ public class Character : MonoBehaviour
             {
                 distanceText.text = DistanceCount.ToString( );
             }
-        }
-
-        if (Game != null)
-        {
-            Game.SubmitAchievmentProgress(GameInfo.RunnerAchievements.RA_Yards, (float)Additional);
-        }       
+        }    
     }
 
     // Add to the coin count
@@ -187,11 +195,6 @@ public class Character : MonoBehaviour
             {
                 coinText.text = CoinCount.ToString( );
             }
-        }
-
-        if (Game != null)
-        {
-            Game.SubmitAchievmentProgress(GameInfo.RunnerAchievements.RA_Pickups, (float)Additional);
-        }        
+        }   
     }
 }

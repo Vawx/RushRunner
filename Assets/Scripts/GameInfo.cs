@@ -237,7 +237,25 @@ public class GameInfo : MonoBehaviour
         }
 
         GameCenterManager.SubmitAchievement(GameCenterManager.GetAchievementProgress(lastAchievement) + AchievmentValue, lastAchievement);    
-        print( Achievement.ToString( ) + " " + AchievmentValue + " " + GameCenterManager.GetAchievementProgress( lastAchievement ) );
+    }
+
+    // Instead of adding to an achievement progress value, set it as a whole
+    public void SubmitAchievementAsWhole(RunnerAchievements Achievment, float AchievmentWholeValue)
+    {
+        string lastAchievement = "";
+        switch (Achievment)
+        {
+            case RunnerAchievements.RA_Pickups:
+                lastAchievement = "G_100Pickups";
+                break;
+            case RunnerAchievements.RA_Rounds:
+                lastAchievement = "G_10Rounds";
+                break;
+            case RunnerAchievements.RA_Yards:
+                lastAchievement = "G_100Yards";
+                break;
+        }
+        GameCenterManager.SubmitAchievement(AchievmentWholeValue, lastAchievement);  
     }
 
     void OnAuthFinished(ISN_Result res)
