@@ -158,13 +158,26 @@ public class Character : MonoBehaviour
             gameCharacterSprite.color = resetColorAlpha;
         }
 
-        PlayerPrefs.SetInt("Attempts", AttemptCount + 1);
+        // Save attempts
+        AttemptCount += 1;
+        PlayerPrefs.SetInt("Attempts", AttemptCount);
         PlayerPrefs.Save( );
+
         if (Game != null)
         {
-            Game.SubmitAchievmentProgress( GameInfo.RunnerAchievements.RA_Rounds, (float)AttemptCount );
-            Game.SubmitAchievmentProgress( GameInfo.RunnerAchievements.RA_Pickups, (float)CoinCount );
-            Game.SubmitAchievementAsWhole( GameInfo.RunnerAchievements.RA_Yards, 0.0f );
+            Game.SubmitAchievmentProgress( GameInfo.RunnerAchievements.RA_Rounds, AttemptCount );
+            Game.SubmitAchievmentProgress( GameInfo.RunnerAchievements.RA_Pickups, CoinCount );
+
+            // If DistanceCount is less than 100 AND achievment hasnt been unlocked, reset it 
+            if (GameCenterManager.GetAchievementProgress("G_100Yards") < 100.0f && DistanceCount < 100)
+            {
+                Game.SubmitAchievementAsWhole(GameInfo.RunnerAchievements.RA_Yards, 0.0f);
+            }
+            // If DistanceCount is more than 100, set achievement as complete
+            else
+            {
+                Game.SubmitAchievmentProgress( GameInfo.RunnerAchievements.RA_Yards, DistanceCount );
+            }
         }
 
         DistanceCount = 0;

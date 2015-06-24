@@ -255,6 +255,7 @@ public class GameInfo : MonoBehaviour
                 lastAchievement = "G_100Yards";
                 break;
         }
+
         GameCenterManager.SubmitAchievement(AchievmentWholeValue, lastAchievement);  
     }
 
