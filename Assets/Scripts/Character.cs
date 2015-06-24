@@ -33,6 +33,8 @@ public class Character : MonoBehaviour
 
     private bool isFadeOut;
 
+    private int CurrentCoinCount;
+
     private int HideiAds;
 
 	// Use this for initialization
@@ -158,7 +160,7 @@ public class Character : MonoBehaviour
                 if (Game != null)
                 {
                     Game.SubmitAchievmentProgress(GameInfo.RunnerAchievements.RA_Rounds, AttemptCount);
-                    Game.SubmitAchievmentProgress(GameInfo.RunnerAchievements.RA_Pickups, CoinCount);
+                    Game.SubmitAchievmentProgress(GameInfo.RunnerAchievements.RA_Pickups, CurrentCoinCount);
 
                     // If DistanceCount is less than 100 AND achievment hasnt been unlocked, reset it 
                     if (GameCenterManager.GetAchievementProgress("G_100Yards") < 100.0f && DistanceCount < 100)
@@ -191,6 +193,7 @@ public class Character : MonoBehaviour
             gameCharacterSprite.color = resetColorAlpha;
         }
 
+        CurrentCoinCount = 0;
         DistanceCount = 0;
     }
 
@@ -211,6 +214,7 @@ public class Character : MonoBehaviour
     // Add to the coin count
     public void AddCoins(int Additional)
     {
+        CurrentCoinCount += Additional;
         CoinCount += Additional;
         if (GameUI != null)
         {
