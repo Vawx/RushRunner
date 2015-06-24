@@ -75,13 +75,9 @@ public class GameInfo : MonoBehaviour
         // DEBUGGING ONLY -- REMOVE FOR FINAL BUILD
         //     Reset Achievements
         GameCenterManager.ResetAchievements( );
-    }
 
-    void Start()
-    {
         ShowIAds( true );
     }
-
 
     // Updates every frame
     void Update( )
@@ -302,23 +298,26 @@ public class GameInfo : MonoBehaviour
     // Show or hide it depending on bShow
     public void ShowIAds(bool bShow)
     {
-        if (AdBanner == null)
+        if (PlayerPrefs.GetInt("ShowiAds") == 0)
         {
-            if (bShow)
+            if (AdBanner == null)
             {
-                AdBanner = iAdBannerController.instance.CreateAdBanner(TextAnchor.UpperCenter);
-                AdBanner.Show( );
-            }
-        }
-        else
-        {
-            if (bShow)
-            {
-                AdBanner.Show();
+                if (bShow)
+                {
+                    AdBanner = iAdBannerController.instance.CreateAdBanner(TextAnchor.UpperCenter);
+                    AdBanner.Show();
+                }
             }
             else
             {
-                AdBanner.Hide();
+                if (bShow)
+                {
+                    AdBanner.Show();
+                }
+                else
+                {
+                    AdBanner.Hide();
+                }
             }
         }
     }
