@@ -33,14 +33,22 @@ public class Character : MonoBehaviour
 
     private bool isFadeOut;
 
+    private int HideiAds;
+
 	// Use this for initialization
 	void Start ()
     {
 	    RestartLocation = gameObject.transform.position;
 
+        HideiAds = PlayerPrefs.GetInt("ShowiAds");
         AttemptCount = PlayerPrefs.GetInt( "Attempts" );
         CoinCount = PlayerPrefs.GetInt( "Coins" );
         AddCoins( 0 );
+
+        if (HideiAds == 0)
+        {
+            
+        }
 	}
 	
 	// Update is called once per frame

@@ -42,6 +42,9 @@ public class GameInfo : MonoBehaviour
     // Level and Character need reseting
     private bool bLevelAndCharacterRestart;
 
+    // Reference to iAd banner
+    private iAdBanner AdBanner;
+
     // When object starts
     void Awake( )
     {
@@ -54,18 +57,29 @@ public class GameInfo : MonoBehaviour
             RestartGame( );
         }
 
+        // Register all achievements
         GameCenterManager.RegisterAchievement( "G_100Yards" );
         GameCenterManager.RegisterAchievement( "G_100Pickups" );
         GameCenterManager.RegisterAchievement( "G_10Rounds" );
 
+        // Delegates for Achievements
         GameCenterManager.Dispatcher.addEventListener( GameCenterManager.GAME_CENTER_ACHIEVEMENT_PROGRESS, OnAchievementProgress );
         GameCenterManager.Dispatcher.addEventListener( GameCenterManager.GAME_CENTER_ACHIEVEMENTS_RESET, OnAchievementsReset );
 
+        // OnAchievementLoaded Delegate
         GameCenterManager.OnAchievementsLoaded += OnAchievementLoaded;
 
+        // Init GameCenter
         GameCenterManager.init( );
 
+        // DEBUGGING ONLY -- REMOVE FOR FINAL BUILD
+        //     Reset Achievements
         GameCenterManager.ResetAchievements( );
+    }
+
+    void Start()
+    {
+        ShowIAds( true );
     }
 
 
@@ -182,7 +196,19 @@ public class GameInfo : MonoBehaviour
             GameUI.gameObject.SetActive(bRunning);
         }
 
+        ShowIAds( !bGameRunning );
+
         RestartGame( );
+    }
+
+    public void ShowLeaderboards()
+    {
+        GameCenterManager.ShowLeaderboards( );
+    }
+
+    public void ShowAchievements()
+    {
+        GameCenterManager.ShowAchievements( );
     }
 
     /** ----------------------------
@@ -204,7 +230,7 @@ public class GameInfo : MonoBehaviour
     // When achievements are reset
     private void OnAchievementsReset()
     {
-
+        // Achievements are reset
     }
 
     // When achievments send progress
@@ -216,6 +242,19 @@ public class GameInfo : MonoBehaviour
         {
             AchievementTemplate template = result.info;
             print( template.id + ": " + template.progress.ToString( ) );
+        }
+    }
+
+    // Player is logged into GameCenter
+    void OnAuthFinished(ISN_Result res)
+    {
+        if (res.IsSucceeded)
+        {
+            IOSNativePopUpManager.showMessage("Player Authored ", "ID: " + GameCenterManager.Player.PlayerId + "\n" + "Alias: " + GameCenterManager.Player.Alias);
+        }
+        else
+        {
+            IOSNativePopUpManager.showMessage("Game Center ", "Player auth failed");
         }
     }
 
@@ -259,16 +298,28 @@ public class GameInfo : MonoBehaviour
         GameCenterManager.SubmitAchievement(AchievmentWholeValue, lastAchievement);  
     }
 
-    void OnAuthFinished(ISN_Result res)
+    // Creates instance of iAd if doesnt exist
+    // Show or hide it depending on bShow
+    public void ShowIAds(bool bShow)
     {
-        if (res.IsSucceeded)
+        if (AdBanner == null)
         {
-            IOSNativePopUpManager.showMessage("Player Authored ", "ID: " + GameCenterManager.Player.PlayerId + "\n" + "Alias: " + GameCenterManager.Player.Alias);
+            if (bShow)
+            {
+                AdBanner = iAdBannerController.instance.CreateAdBanner(TextAnchor.UpperCenter);
+                AdBanner.Show( );
+            }
         }
         else
         {
-            IOSNativePopUpManager.showMessage("Game Center ", "Player auth failed");
+            if (bShow)
+            {
+                AdBanner.Show();
+            }
+            else
+            {
+                AdBanner.Hide();
+            }
         }
     }
-
 }
