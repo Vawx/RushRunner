@@ -64,6 +64,8 @@ public class GameInfo : MonoBehaviour
         GameCenterManager.OnAchievementsLoaded += OnAchievementLoaded;
 
         GameCenterManager.init( );
+
+        GameCenterManager.ResetAchievements( );
     }
 
 

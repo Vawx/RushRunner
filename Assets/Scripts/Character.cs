@@ -46,7 +46,7 @@ public class Character : MonoBehaviour
         lockXPosition.x = 2.25f;
         transform.position = lockXPosition;
 
-        if (!isDead && Time.timeScale == 1 )
+        if (!isDead && Time.timeScale == 1 && LevelManager.bGameRunning )
         {
             CurrentTime += Time.deltaTime + 0.025f;
             if (CurrentTime >= 1.0f)
