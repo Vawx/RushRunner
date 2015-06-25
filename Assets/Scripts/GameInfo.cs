@@ -345,6 +345,8 @@ public class GameInfo : MonoBehaviour
     public void SubmitLeaderboardScore(double DistanceScore)
     {
         GameCenterManager.ReportScore( DistanceScore, "G_Distance" );
+
+        print( "DistanceScore: " + DistanceScore );
     }
 
     // Banner has loaded
