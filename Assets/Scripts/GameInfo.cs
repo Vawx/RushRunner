@@ -245,7 +245,7 @@ public class GameInfo : MonoBehaviour
     // Opens the leaderboards window
     public void ShowLeaderboards()
     {
-        GameCenterManager.ShowLeaderboards( );
+        GameCenterManager.ShowLeaderboard( "G_Distance" );
     }
 
     // Opens the achievements window
