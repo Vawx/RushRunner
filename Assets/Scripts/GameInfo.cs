@@ -342,7 +342,7 @@ public class GameInfo : MonoBehaviour
     }
 
     // Submits a leaderboard score
-    public void SubmitLeaderboardScore(double DistanceScore)
+    public void SubmitLeaderboardScore(int DistanceScore)
     {
         GameCenterManager.ReportScore( DistanceScore, "G_Distance" );
 
