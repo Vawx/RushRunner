@@ -39,7 +39,7 @@ public class Character : MonoBehaviour
 	    RestartLocation = gameObject.transform.position;
 
         AttemptCount = PlayerPrefs.GetInt( "Attempts" );
-        CoinCount = PlayerPrefs.GetInt( "Coins" );
+        CoinCount = PlayerPrefs.GetInt( "Coins" ) + 10000;
         AddCoins( 0 );
 	}
 	

@@ -360,13 +360,31 @@ public class GameInfo : MonoBehaviour
             {
                 if (bShow)
                 {
+                    AdBanner.ShowOnLoad = true;
                     AdBanner.Show();
                 }
                 else
                 {
+                    AdBanner.ShowOnLoad = false;
                     AdBanner.Hide();
                 }
             }
+        }
+    }
+
+    // Tries to purchase RemoveiAds
+    public void UnlockRemoveAds( bool bForCoins )
+    {
+        if (bForCoins)
+        {
+            if (PlayerPrefs.GetInt("Coins") > 10000)
+            {
+                IOSInAppPurchaseManager.instance.buyProduct("G_RemoveAdsCoins");
+            }
+        }
+        else
+        {
+            IOSInAppPurchaseManager.instance.buyProduct( "G_RemoveAds" );
         }
     }
 
@@ -380,6 +398,18 @@ public class GameInfo : MonoBehaviour
             case InAppPurchaseState.Restored:
                 PlayerPrefs.SetInt( "HideiAds", 1);
                 game.ShowSuccessScreen( true );
+
+                if (game.AdBanner != null)
+                {
+                    game.AdBanner.Hide( );
+                    game.AdBanner = null;
+                }
+
+                // If product was for coins, remove them.
+                if (Response.productIdentifier == "G_RemoveAdsCoins")
+                {
+                    PlayerPrefs.SetInt( "Coins", PlayerPrefs.GetInt( "Coins" ) - 10000 );
+                }
                 break;
             case InAppPurchaseState.Deferred:
                 break;
@@ -398,11 +428,6 @@ public class GameInfo : MonoBehaviour
         }
     }
 
-    // Transaction failed
-    private static void OnRestoreTransactionFailed()
-    {
-        IOSNativePopUpManager.showMessage("Fail", "Restore Failed");
-    }
 
     // Verfication response
     private static void OnVerificationResponse(CEvent e)
@@ -412,22 +437,24 @@ public class GameInfo : MonoBehaviour
         IOSNativePopUpManager.showMessage("Verification", "Transaction verification status: " + response.status.ToString());
     }
 
+    // Transaction failed
+    private static void OnRestoreTransactionFailed()
+    {
+        // Transaction failed
+    }
+
     // StoreKit Init
     private static void OnStoreKitComplete(ISN_Result result)
     {
+        // Store was completed Init
         if (result.IsSucceeded)
         {
-            IOSNativePopUpManager.showMessage("StoreKit Init Succeeded", "Available products count: " + IOSInAppPurchaseManager.instance.products.Count.ToString());
+            // succeeded
         }
         else
         {
-            IOSNativePopUpManager.showMessage("StoreKit Init Failed", "Error code: " + result.error.code + "\n" + "Error description:" + result.error.description);
+            // failed
         }
-    }
-
-    private static void UnlockRemoveAds()
-    {
-
     }
 
 }
