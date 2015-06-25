@@ -341,6 +341,15 @@ public class GameInfo : MonoBehaviour
         GameCenterManager.SubmitAchievement(AchievmentWholeValue, lastAchievement);  
     }
 
+    // Banner has loaded
+    public void BannerLoaded()
+    {
+        if (bGameRunning)
+        {
+            AdBanner.Hide( );
+        }
+    }
+
     // Creates instance of iAd if doesnt exist
     // Show or hide it depending on bShow
     public void ShowIAds(bool bShow)
@@ -354,6 +363,7 @@ public class GameInfo : MonoBehaviour
                 {
                     AdBanner = iAdBannerController.instance.CreateAdBanner(TextAnchor.UpperCenter);
                     AdBanner.Show();
+                    AdBanner.AdViewFinishedAction += BannerLoaded;
                 }
             }
             else
@@ -372,19 +382,37 @@ public class GameInfo : MonoBehaviour
         }
     }
 
+    // Purchase was successful, remove coins if needed and hide ad banner
+    public void HaveUnlockedIAds(bool bForCoins)
+    {
+        if (bForCoins)
+        {
+            PlayerPrefs.SetInt( "Coins", PlayerPrefs.GetInt( "Coins" ) - 10000 );
+        }
+
+        PlayerPrefs.SetInt( "ShowiAds", 1 ); 
+        if (AdBanner != null)
+        {
+            AdBanner.Hide( );
+            AdBanner = null;
+        }
+    }
+
     // Tries to purchase RemoveiAds
     public void UnlockRemoveAds( bool bForCoins )
     {
         if (bForCoins)
         {
-            if (PlayerPrefs.GetInt("Coins") > 10000)
+            if (PlayerPrefs.GetInt("Coins") >= 10000)
             {
                 IOSInAppPurchaseManager.instance.buyProduct("G_RemoveAdsCoins");
+                ShowPurchaseScreen( false );
             }
         }
         else
         {
             IOSInAppPurchaseManager.instance.buyProduct( "G_RemoveAds" );
+            ShowPurchaseScreen( false );
         }
     }
 
@@ -396,35 +424,14 @@ public class GameInfo : MonoBehaviour
         {
             case InAppPurchaseState.Purchased:
             case InAppPurchaseState.Restored:
-                PlayerPrefs.SetInt( "HideiAds", 1);
                 game.ShowSuccessScreen( true );
-
-                if (game.AdBanner != null)
-                {
-                    game.AdBanner.Hide( );
-                    game.AdBanner = null;
-                }
-
-                // If product was for coins, remove them.
-                if (Response.productIdentifier == "G_RemoveAdsCoins")
-                {
-                    PlayerPrefs.SetInt( "Coins", PlayerPrefs.GetInt( "Coins" ) - 10000 );
-                }
+                game.HaveUnlockedIAds( Response.productIdentifier == "G_RemoveAdsCoins" );
                 break;
             case InAppPurchaseState.Deferred:
                 break;
             case InAppPurchaseState.Failed:
                 game.ShowFailScreen( true );
                 break;
-        }
-
-        if (Response.state == InAppPurchaseState.Failed)
-        {
-            IOSNativePopUpManager.showMessage( "Transaction Failed", "Error Code: " + Response.error.code + "\n" + "Error Description: " + Response.error.description );
-        }
-        else
-        {
-            IOSNativePopUpManager.showMessage( "Store Kit Response", "Prouct: " + Response.productIdentifier + " State: " + Response.state.ToString( ) );
         }
     }
 
