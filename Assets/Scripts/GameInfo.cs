@@ -387,7 +387,7 @@ public class GameInfo : MonoBehaviour
     {
         if (bForCoins)
         {
-            PlayerPrefs.SetInt( "Coins", PlayerPrefs.GetInt( "Coins" ) - 10000 );
+            GameCharacter.AddCoins( -10000 );
         }
 
         PlayerPrefs.SetInt( "ShowiAds", 1 ); 
