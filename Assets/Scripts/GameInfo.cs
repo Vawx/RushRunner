@@ -382,40 +382,6 @@ public class GameInfo : MonoBehaviour
         }
     }
 
-    // Purchase was successful, remove coins if needed and hide ad banner
-    public void HaveUnlockedIAds(bool bForCoins)
-    {
-        if (bForCoins)
-        {
-            GameCharacter.AddCoins( -10000 );
-        }
-
-        PlayerPrefs.SetInt( "ShowiAds", 1 ); 
-        if (AdBanner != null)
-        {
-            AdBanner.Hide( );
-            AdBanner = null;
-        }
-    }
-
-    // Tries to purchase RemoveiAds
-    public void UnlockRemoveAds( bool bForCoins )
-    {
-        if (bForCoins)
-        {
-            if (PlayerPrefs.GetInt("Coins") >= 10000)
-            {
-                IOSInAppPurchaseManager.instance.buyProduct("G_RemoveAdsCoins");
-                ShowPurchaseScreen( false );
-            }
-        }
-        else
-        {
-            IOSInAppPurchaseManager.instance.buyProduct( "G_RemoveAds" );
-            ShowPurchaseScreen( false );
-        }
-    }
-
     // Tranaction Complete
     private static void OnTransactionComplete(IOSStoreKitResponse Response)
     {
@@ -439,9 +405,7 @@ public class GameInfo : MonoBehaviour
     // Verfication response
     private static void OnVerificationResponse(CEvent e)
     {
-        IOSStoreKitVerificationResponse response = e.data as IOSStoreKitVerificationResponse;
-
-        IOSNativePopUpManager.showMessage("Verification", "Transaction verification status: " + response.status.ToString());
+        // Verified response on purchase
     }
 
     // Transaction failed
@@ -464,4 +428,43 @@ public class GameInfo : MonoBehaviour
         }
     }
 
+    // Purchase was successful, remove coins if needed and hide ad banner
+    public void HaveUnlockedIAds(bool bForCoins)
+    {
+        if (bForCoins)
+        {
+            GameCharacter.AddCoins(-10000);
+        }
+
+        PlayerPrefs.SetInt("ShowiAds", 1);
+        if (AdBanner != null)
+        {
+            AdBanner.Hide();
+            AdBanner = null;
+        }
+    }
+
+    // Tries to purchase RemoveiAds
+    public void UnlockRemoveAds(bool bForCoins)
+    {
+        if (bForCoins)
+        {
+            if ( GameCharacter.CoinCount >= 10000)
+            {
+                IOSInAppPurchaseManager.instance.buyProduct("G_RemoveAdsCoins");
+                ShowPurchaseScreen(false);
+            }
+        }
+        else
+        {
+            IOSInAppPurchaseManager.instance.buyProduct("G_RemoveAds");
+            ShowPurchaseScreen(false);
+        }
+    }
+
+    // Attempts to restore purchases
+    public void RestorePurchases()
+    {
+        IOSInAppPurchaseManager.instance.restorePurchases( );
+    }
 }
