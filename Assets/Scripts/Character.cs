@@ -39,7 +39,7 @@ public class Character : MonoBehaviour
 	    RestartLocation = gameObject.transform.position;
 
         AttemptCount = PlayerPrefs.GetInt( "Attempts" );
-        CoinCount = PlayerPrefs.GetInt( "Coins" ) + 10000;
+        CoinCount = PlayerPrefs.GetInt( "Coins" );
         AddCoins( 0 );
 	}
 	
@@ -159,6 +159,8 @@ public class Character : MonoBehaviour
                     {
                         Game.SubmitAchievmentProgress(GameInfo.RunnerAchievements.RA_Yards, DistanceCount);
                     }
+
+                    Game.SubmitLeaderboardScore( DistanceCount );
                 }
             }
         }

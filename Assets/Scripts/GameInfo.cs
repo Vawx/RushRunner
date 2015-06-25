@@ -341,6 +341,12 @@ public class GameInfo : MonoBehaviour
         GameCenterManager.SubmitAchievement(AchievmentWholeValue, lastAchievement);  
     }
 
+    // Submits a leaderboard score
+    public void SubmitLeaderboardScore(double DistanceScore)
+    {
+        GameCenterManager.ReportScore( DistanceScore, "G_Distance" );
+    }
+
     // Banner has loaded
     public void BannerLoaded()
     {
@@ -391,7 +397,7 @@ public class GameInfo : MonoBehaviour
             case InAppPurchaseState.Purchased:
             case InAppPurchaseState.Restored:
                 game.ShowSuccessScreen( true );
-                game.HaveUnlockedIAds( Response.productIdentifier == "G_RemoveAdsCoins" );
+                game.HaveUnlockedIAds( Response.productIdentifier == "G_RemoveAdsCoins", Response.state == InAppPurchaseState.Restored );
                 break;
             case InAppPurchaseState.Deferred:
                 break;
@@ -428,10 +434,10 @@ public class GameInfo : MonoBehaviour
         }
     }
 
-    // Purchase was successful, remove coins if needed and hide ad banner
-    public void HaveUnlockedIAds(bool bForCoins)
+    // Purchase was successful, remove coins, and hide ad banner
+    public void HaveUnlockedIAds(bool bForCoins, bool bRestored)
     {
-        if (bForCoins)
+        if (bForCoins && !bRestored)
         {
             GameCharacter.AddCoins(-10000);
         }
@@ -449,7 +455,7 @@ public class GameInfo : MonoBehaviour
     {
         if (bForCoins)
         {
-            if ( GameCharacter.CoinCount >= 10000)
+            if (GameCharacter.CoinCount >= 10000)
             {
                 IOSInAppPurchaseManager.instance.buyProduct("G_RemoveAdsCoins");
                 ShowPurchaseScreen(false);
