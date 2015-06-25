@@ -42,6 +42,9 @@ public class GameInfo : MonoBehaviour
     // Level and Character need reseting
     private bool bLevelAndCharacterRestart;
 
+    // If HideiAds has been unlocked
+    private int HideiAds;
+
     // Reference to iAd banner
     private iAdBanner AdBanner;
 
@@ -56,6 +59,21 @@ public class GameInfo : MonoBehaviour
 
             RestartGame( );
         }
+
+        // RemoveAds as Product
+        IOSInAppPurchaseManager.instance.addProductId( "G_RemoveAds" );
+        IOSInAppPurchaseManager.instance.addProductId( "G_RemoveAdsCoins" );
+
+        // Add listening for Delgates
+        IOSInAppPurchaseManager.instance.addEventListener( IOSInAppPurchaseManager.RESTORE_TRANSACTION_FAILED, OnRestoreTransactionFailed );
+        IOSInAppPurchaseManager.instance.addEventListener( IOSInAppPurchaseManager.VERIFICATION_RESPONSE, OnVerificationResponse );
+
+        // Assign delegates 
+        IOSInAppPurchaseManager.instance.OnStoreKitInitComplete += OnStoreKitComplete;
+        IOSInAppPurchaseManager.instance.OnTransactionComplete += OnTransactionComplete;
+
+        // Load the store.
+        IOSInAppPurchaseManager.instance.loadStore( );
 
         // Register all achievements
         GameCenterManager.RegisterAchievement( "G_100Yards" );
@@ -177,6 +195,33 @@ public class GameInfo : MonoBehaviour
         }
     }
 
+    // Show or hide Purchase Window
+    public void ShowPurchaseScreen( bool bShow )
+    {
+        if (MainMenuUI != null)
+        {
+           MainMenuUI.transform.FindChild( "RemoveAdsBackgroundScreen" ).gameObject.SetActive( bShow );
+        }
+    }
+
+    // Show or hide Success Window
+    public void ShowSuccessScreen( bool bShow )
+    {
+        if (MainMenuUI != null)
+        {
+            MainMenuUI.transform.FindChild( "PurchaseSucceededBackgroundScreen" ).gameObject.SetActive( bShow );
+        }
+    }
+
+    // Show or hide Fail Window
+    public void ShowFailScreen( bool bShow )
+    {
+        if (MainMenuUI != null)
+        {
+            MainMenuUI.transform.FindChild( "PurchaseFailedBackgroundScreen" ).gameObject.SetActive( bShow );
+        }
+    }
+
     // Game state button was pressed
     public void GameStateButtonPressed( bool bRunning )
     {
@@ -196,12 +241,14 @@ public class GameInfo : MonoBehaviour
 
         RestartGame( );
     }
-
+    
+    // Opens the leaderboards window
     public void ShowLeaderboards()
     {
         GameCenterManager.ShowLeaderboards( );
     }
 
+    // Opens the achievements window
     public void ShowAchievements()
     {
         GameCenterManager.ShowAchievements( );
@@ -298,7 +345,8 @@ public class GameInfo : MonoBehaviour
     // Show or hide it depending on bShow
     public void ShowIAds(bool bShow)
     {
-        if (PlayerPrefs.GetInt("ShowiAds") == 0)
+        HideiAds = PlayerPrefs.GetInt( "ShowiAds" );
+        if (HideiAds == 0)
         {
             if (AdBanner == null)
             {
@@ -321,4 +369,65 @@ public class GameInfo : MonoBehaviour
             }
         }
     }
+
+    // Tranaction Complete
+    private static void OnTransactionComplete(IOSStoreKitResponse Response)
+    {
+        GameInfo game = FindObjectOfType<GameInfo>();
+        switch (Response.state)
+        {
+            case InAppPurchaseState.Purchased:
+            case InAppPurchaseState.Restored:
+                PlayerPrefs.SetInt( "HideiAds", 1);
+                game.ShowSuccessScreen( true );
+                break;
+            case InAppPurchaseState.Deferred:
+                break;
+            case InAppPurchaseState.Failed:
+                game.ShowFailScreen( true );
+                break;
+        }
+
+        if (Response.state == InAppPurchaseState.Failed)
+        {
+            IOSNativePopUpManager.showMessage( "Transaction Failed", "Error Code: " + Response.error.code + "\n" + "Error Description: " + Response.error.description );
+        }
+        else
+        {
+            IOSNativePopUpManager.showMessage( "Store Kit Response", "Prouct: " + Response.productIdentifier + " State: " + Response.state.ToString( ) );
+        }
+    }
+
+    // Transaction failed
+    private static void OnRestoreTransactionFailed()
+    {
+        IOSNativePopUpManager.showMessage("Fail", "Restore Failed");
+    }
+
+    // Verfication response
+    private static void OnVerificationResponse(CEvent e)
+    {
+        IOSStoreKitVerificationResponse response = e.data as IOSStoreKitVerificationResponse;
+
+        IOSNativePopUpManager.showMessage("Verification", "Transaction verification status: " + response.status.ToString());
+    }
+
+    // StoreKit Init
+    private static void OnStoreKitComplete(ISN_Result result)
+    {
+        if (result.IsSucceeded)
+        {
+            IOSNativePopUpManager.showMessage("StoreKit Init Succeeded", "Available products count: " + IOSInAppPurchaseManager.instance.products.Count.ToString());
+        }
+        else
+        {
+            IOSNativePopUpManager.showMessage("StoreKit Init Failed", "Error code: " + result.error.code + "\n" + "Error description:" + result.error.description);
+        }
+    }
+
+    private static void UnlockRemoveAds()
+    {
+
+    }
+
 }
